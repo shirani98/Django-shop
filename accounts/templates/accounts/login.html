@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+
+    <form method="post" class="text-center">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+    {{ form.username.errors }}
+    {{ form.username|as_crispy_field }}
+<br>
+    {{ form.password.errors }}
+    {{ form.password|as_crispy_field }}
+<br>
+       <a href=""> <p>Forget Password?</p></a>
+
+        <input type="submit" value="Login" class="btn btn-primary">
+
+    </form>
+    
+
+{% endblock body %}
