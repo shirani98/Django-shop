@@ -5,7 +5,7 @@ from django.urls import reverse
 class Product(models.Model):
     title = models.CharField(max_length=200)
     slug = models.CharField(max_length= 200, unique=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='category')
+    category = models.ManyToManyField(Category, related_name='category')
     image = models.ImageField(upload_to = 'images/product/%y/%m/%d')
     body = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places = 2)

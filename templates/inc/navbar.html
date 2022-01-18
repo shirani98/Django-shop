@@ -21,10 +21,6 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'shop:index' %}">Home</a></li>
-
-                        
-
                        {% if user.is_authenticated %}
                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:logout' %}">Logout</a></li>
                         {% else %}
@@ -32,7 +28,28 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">Login</a></li>
                        {% endif %}
                        {% for item in cats %}
-                       <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{item.get_absolute_url}}">{{item.title}}</a></li>
+                       
+                       {% if item.is_parent %}
+                       <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle active" href="{{item.get_absolute_url}}" data-bs-toggle="dropdown">{{item.title}}</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            {% for sub in item.selfcat.all %}
+
+                            <li><a class="dropdown-item" href="{{sub.get_absolute_url}}">{{sub.title}}</a></li>
+                            {% endfor %}
+
+                        </ul>
+                    </li>    
+                    {% else %}
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{item.get_absolute_url}}">{{item.title}}</a></li>
+
+                       {% endif %}
+                           
+                        
+                       <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#!">{{sub.title}}</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                    </ul>
                        {% endfor %}
                             
                     </ul>

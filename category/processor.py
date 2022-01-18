@@ -1,4 +1,4 @@
 from category.models import Category
 
 def show_cat(request):
-    return {'cats': Category.objects.all()}
+    return {'cats': Category.objects.filter(is_sub = False)}
