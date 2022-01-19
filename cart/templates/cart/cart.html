@@ -22,7 +22,7 @@
         <td>{{item.number}}</td>
         <td>{{item.price}}</td>
         <td>{{item.total_price}}</td>
-        <td><a href="{% url 'cart:del' item.product.id %}">Delete</a></td>
+        <td><a href="{% url 'cart:del' item.product.id %}"><i class="fa fa-trash-o" style="font-size:24px"></i></a></td>
       </tr>
       {% endfor %}
       <tr>

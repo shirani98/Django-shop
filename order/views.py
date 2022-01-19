@@ -5,11 +5,17 @@ from .models import Order , OrderItem
 from django.contrib.auth.mixins import LoginRequiredMixin
 from cart.sessions import Cart
 from shop.models import Product
+from coupon.forms import CouponForm
 # Create your views here.
 
 class OrderDetail(LoginRequiredMixin ,  DetailView):
     model = Order
     template_name = 'order/detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = CouponForm()
+        return context
     
 
 class AddOrder(LoginRequiredMixin , View):

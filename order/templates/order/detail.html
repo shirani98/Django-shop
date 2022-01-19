@@ -3,7 +3,22 @@
 
 <h3>Checkout:</h3>
 
-<p>Total Price is : {{ object.get_total_price }}</p>
+<p>Total Price : ${{ object.get_total_price }}</p>
 
+<form action="{% url 'coupon:check' object.id %}" method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="check coupon">
+</form>
+<br>
+
+<p>Paid Status : 
+{% if object.paid %}
+    Paid
+    {% else %}
+    UnPaid
+{% endif %}
+    
+    </p>
 
 {% endblock body %}
