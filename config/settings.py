@@ -38,10 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'crispy_forms',
+    'sorl.thumbnail',
     'accounts.apps.AccountsConfig',
     'category.apps.CategoryConfig',
     'shop.apps.ShopConfig',
-    'sorl.thumbnail',
+    'cart.apps.CartConfig',
+    'order.apps.OrderConfig',
+    
 ]
 
 MIDDLEWARE = [
@@ -68,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.processor.show_cat',
+                'cart.processor.show_cart',
             ],
         },
     },
