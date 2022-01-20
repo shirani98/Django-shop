@@ -7,11 +7,15 @@ class Order (models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    discount_amount = models.IntegerField(null=True, blank=True)
     
     def __str__(self):
         return f"{self.user} - {self.id}"
     def get_total_price(self):
-        return sum(item.get_cost() for item in self.items.all())
+        total = sum(item.get_cost() for item in self.items.all())
+        if self.discount_amount:
+            return (total * self.discount_amount / 100)
+        return total
         
 class OrderItem (models.Model):
     order = models.ForeignKey(Order,on_delete = models.CASCADE, related_name='items')
