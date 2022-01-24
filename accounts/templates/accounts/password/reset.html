@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% block body %}
+<main id="edit-profile">
+
+    <form method="post">
+        {% csrf_token %}
+            {{form.email |as_crispy_field}}
+        <input type="submit" value="Reset Password" class="btn btn-primary">
+    </form>
+</main>
+
+{% endblock body %}

@@ -5,7 +5,14 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
             <h1 class="display-4 fw-bolder">Django Shop</h1>
-            <p class="lead fw-normal text-white-50 mb-0">simple shop with Django</p>
+            
+            <form action="{% url 'shop:search' %}" class="mx-auto w-50 py-4">
+                <div class="input-group mb-3">
+                    <input name = "q" type="text" class="form-control form-control-lg" placeholder="Search Here">
+                    <button type="submit" class="input-group-text btn btn-outline-light"><i class="bi bi-search me-2"></i></button>
+                </div>
+            </form>
+
         </div>
     </div>
 </header>

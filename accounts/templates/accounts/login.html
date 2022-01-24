@@ -11,7 +11,7 @@
     {{ form.password.errors }}
     {{ form.password|as_crispy_field }}
 <br>
-       <a href=""> <p>Forget Password?</p></a>
+       <a href="{% url 'accounts:reset' %}"> <p>Forget Password?</p></a>
 
         <input type="submit" value="Login" class="btn btn-primary">
 

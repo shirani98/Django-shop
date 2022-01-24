@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'order.apps.OrderConfig',
     'coupon.apps.CouponConfig',
+    'django.contrib.postgres',
     
 ]
 
@@ -156,3 +157,4 @@ LOGOUT_REDIRECT_URL = 'shop:index'
 
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
