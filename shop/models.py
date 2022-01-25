@@ -1,7 +1,6 @@
 from django.db import models
 from category.models import Category
 from django.urls import reverse
-import random
 # Create your models here.
 class Product(models.Model):
     title = models.CharField(max_length=200)
@@ -22,8 +21,4 @@ class Product(models.Model):
     
     def get_absolute_url(self):
         return reverse('shop:detail', kwargs={'slug' : self.slug})
-    
-    def get_product(self):
-        items = list(Product.objects.filter(category__title = self.category.all()[0]))
-        random_items = random.sample(items, 4)
-        return random_items
+            

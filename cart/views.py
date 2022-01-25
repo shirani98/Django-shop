@@ -18,7 +18,7 @@ class AddToCart(View):
         form = AddToCardForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-            cart.add(product=product, number=cd['number'])
+            cart.add(product=product, quantity=cd['quantity'])
             
         return redirect('cart:detail')
     

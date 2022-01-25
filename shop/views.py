@@ -17,6 +17,7 @@ class ProductView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data( *args, **kwargs)
         context['form'] = AddToCardForm
+        context['related_product'] = Product.objects.filter(category__title = self.object.category.all()[0]).exclude(slug = self.kwargs['slug']) [:4]
         return context
     
 class Search(ListView):

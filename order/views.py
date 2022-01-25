@@ -23,7 +23,7 @@ class AddOrder(LoginRequiredMixin , View):
         cart = Cart(request)
         order = Order.objects.create(user = request.user)
         for item in cart :
-            order_item = OrderItem.objects.create(order = order , product = item['product'] , price = item['price'] , number = item['number'])
+            order_item = OrderItem.objects.create(order = order , product = item['product'] , price = item['price'] , quantity = item['quantity'])
         cart.clean()
         return redirect('order:detail' , order.id )
     
