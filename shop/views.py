@@ -1,5 +1,6 @@
+from typing import Mapping
 from urllib import request
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView, DetailView
 from .models import Product
 from cart.forms import AddToCardForm
@@ -9,14 +10,21 @@ from django.conf import settings
 from redis import Redis
 # Create your views here.
 
-redis_con = Redis(settings.REDIS_HOST, settings.REDIS_PORT, settings.REDIS_DB)       
+redis_con = Redis(settings.REDIS_HOST, settings.REDIS_PORT, settings.REDIS_DB,decode_responses=True)       
 class ShopView(ListView):
     def get_queryset(self):
         return Product.objects.filter(is_active=True)
     template_name = 'shop/index.html'
     
+    def setup(self, request, *args, **kwargs):
+        self.view =  redis_con.zrevrangebyscore("view","+inf" , "-inf")[:4]
+        return super().setup(request, *args, **kwargs)
+    
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data( *args, **kwargs)
+        context['view'] = [get_object_or_404(Product, id = int(item)) for item in self.view]
+        print("*"*50)
+        print(context['view'])
         context['product_visited'] = list(Visited(self.request))
         return context
 class ProductView(DetailView):
@@ -33,8 +41,7 @@ class ProductView(DetailView):
         context = super().get_context_data( *args, **kwargs)
         context['form'] = AddToCardForm
         context['related_product'] = Product.objects.filter(category__title = self.object.category.all()[0]).exclude(slug = self.kwargs['slug']) [:4]
-        redis_con.hsetnx("product_view", self.object.id , 0)
-        context['view'] = redis_con.hincrby("product_view" , self.object.id)
+        context['view'] = int(redis_con.zincrby("view" , 1 , self.object.id))
         return context
     
     
