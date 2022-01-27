@@ -3,11 +3,16 @@
 
 {% load crispy_forms_tags %}
 {% block body %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+
     <form method="post" class="text-center">
         {% csrf_token %}
         {{form |crispy}}
         <br><input type="submit" value="Register" class="btn btn-primary">
 
     </form>
+    </div>
+    </section>
 {% endblock body %}
 

@@ -37,15 +37,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #Third-party apps
     'crispy_forms',
     'sorl.thumbnail',
+    #Local apps
     'accounts.apps.AccountsConfig',
     'category.apps.CategoryConfig',
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'order.apps.OrderConfig',
     'coupon.apps.CouponConfig',
-    'django.contrib.postgres',
+
     
 ]
 
@@ -122,6 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -162,3 +165,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 1
+

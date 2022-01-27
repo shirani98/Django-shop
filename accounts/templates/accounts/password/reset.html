@@ -2,13 +2,16 @@
 
 {% load crispy_forms_tags %}
 {% block body %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+
 <main id="edit-profile">
 
     <form method="post">
         {% csrf_token %}
-            {{form.email |as_crispy_field}}
+            {{form.email |as_crispy_field}}<br>
         <input type="submit" value="Reset Password" class="btn btn-primary">
     </form>
-</main>
+</main></div></section>
 
 {% endblock body %}

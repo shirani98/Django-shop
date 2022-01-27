@@ -7,7 +7,7 @@
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{object.image.url}}" alt="{{object.title}}" /></div>
             <div class="col-md-6">
                 <div class="small mb-1">Date: {{object.created}}</div>
-                <div class="small mb-1">Views: {{view}}</div>
+                <div class="small mb-1">Views: {{product_view}}</div>
 
                 <h1 class="display-5 fw-bolder">{{object.title}}</h1>
                 <div class="fs-5 mb-5">
@@ -19,7 +19,7 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-4">
-                            {{form}}
+                            {{quantity_form}}
                         </div>
                         <div class="col-8"> 
                         <button class="btn btn-outline-dark flex-shrink-0" type="submit">

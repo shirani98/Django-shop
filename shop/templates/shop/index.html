@@ -31,21 +31,75 @@
     </div>
 </div>
 
-
-  
+{% empty %}
+<p>There are no products to display</p>
 {% endfor %}
+
+
+
+
 </div>
+
+
+<!--Pagination-->
+{% if page_obj %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+    {% if page_obj.has_previous %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+      </li>
+    {% endif %}
+
+    {% if page_obj.number|add:'-4' > 1 %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'-5' }}">&hellip;</a></li>
+    {% endif %}
+
+    {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+            <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            {{ i }}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+             <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+       <li class="page-item"><a class="page-link" href="?page={{ page_obj.number|add:'5' }}">&hellip;</a></li>
+    {% endif %}
+
+    {% if page_obj.has_next %}
+        <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+    {% else %}
+        <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endif %}
+<!--end of Pagination-->
 
 </div>
 </section>
 
-{% if product_visited|length %}
+{% if visited_products|length %}
 <section class="py-5 bg-light">
     <div class="container px-4 px-lg-5 mt-5">
-        <h2 class="fw-bolder mb-4">Visited products</h2>
+        <h2 class="fw-bolder mb-4">Visited Product{{ visited_products|pluralize }}</h2>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             
-            {% for item in product_visited %}
+            {% for item in visited_products %}
             <div class="col mb-5">
                 <div class="card h-100">
                     <!-- Product image-->
@@ -76,13 +130,13 @@
 {% endif %}
 
 
-{% if view|length %}
+{% if most_view_products|length %}
 <section class="py-5 bg-light">
     <div class="container px-4 px-lg-5 mt-5">
-        <h2 class="fw-bolder mb-4">Most View Products</h2>
+        <h2 class="fw-bolder mb-4">Most View Product{{ most_view_products|pluralize }}</h2>
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
             
-            {% for item in view %}
+            {% for item in most_view_products %}
             
             <div class="col mb-5">
                 <div class="card h-100">

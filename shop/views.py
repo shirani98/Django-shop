@@ -12,9 +12,8 @@ from redis import Redis
 
 redis_con = Redis(settings.REDIS_HOST, settings.REDIS_PORT, settings.REDIS_DB,decode_responses=True)       
 class ShopView(ListView):
-    def get_queryset(self):
-        return Product.objects.filter(is_active=True)
     template_name = 'shop/index.html'
+    paginate_by = 4
     
     def setup(self, request, *args, **kwargs):
         self.view =  redis_con.zrevrangebyscore("view","+inf" , "-inf")[:4]
@@ -22,11 +21,14 @@ class ShopView(ListView):
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data( *args, **kwargs)
-        context['view'] = [get_object_or_404(Product, id = int(item)) for item in self.view]
-        print("*"*50)
-        print(context['view'])
-        context['product_visited'] = list(Visited(self.request))
+        context['most_view_products'] = [get_object_or_404(Product, id = int(item)) for item in self.view]
+        context['visited_products'] = list(Visited(self.request))
         return context
+    
+    def get_queryset(self):
+        return Product.objects.filter(is_active=True)
+
+
 class ProductView(DetailView):
     template_name = 'shop/detail.html'
     model = Product
@@ -39,9 +41,9 @@ class ProductView(DetailView):
     
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data( *args, **kwargs)
-        context['form'] = AddToCardForm
+        context['quantity_form'] = AddToCardForm
         context['related_product'] = Product.objects.filter(category__title = self.object.category.all()[0]).exclude(slug = self.kwargs['slug']) [:4]
-        context['view'] = int(redis_con.zincrby("view" , 1 , self.object.id))
+        context['product_view'] = int(redis_con.zincrby("view" , 1 , self.object.id))
         return context
     
     

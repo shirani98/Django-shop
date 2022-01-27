@@ -7,11 +7,14 @@ from .forms import AddToCardForm
 # Create your views here.
 
 class CardDetail(View):
+    
     def get(self, request, *args, **kwargs):
         cart = Cart(request)
         return render(request,'cart/cart.html',{'cart' : cart})
     
+    
 class AddToCart(View):
+    
     def post(self, request, *args, **kwargs):
         cart = Cart(request)
         product = get_object_or_404(Product, id = self.kwargs['product_id'])
@@ -19,10 +22,11 @@ class AddToCart(View):
         if form.is_valid():
             cd = form.cleaned_data
             cart.add(product=product, quantity=cd['quantity'])
-            
         return redirect('cart:detail')
     
+    
 class DeleteCart(View):
+    
     def get(self, request, *args, **kwargs):
         cart = Cart(request)
         product = get_object_or_404(Product , id = kwargs.get('product_id'))

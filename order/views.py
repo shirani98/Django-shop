@@ -19,6 +19,7 @@ class OrderDetail(LoginRequiredMixin ,  DetailView):
     
 
 class AddOrder(LoginRequiredMixin , View):
+    
     def get(self , request, *args, **kwargs):
         cart = Cart(request)
         order = Order.objects.create(user = request.user)
