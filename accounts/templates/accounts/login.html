@@ -16,6 +16,8 @@
        <a href="{% url 'accounts:reset' %}"> <p>Forget Password?</p></a>
 
         <input type="submit" value="Login" class="btn btn-primary">
+        <a href="{% url 'social:begin' 'google-oauth2' %}"><input type="button"  value="Gmail login" class="btn btn-danger"></a>
+
 
     </form>
   </div>

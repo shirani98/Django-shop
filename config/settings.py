@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-*-msl2#rvvxx9g_ry_vnnkt-1m$xwoer)1lhw38*4@l1rr)^t6'
+SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     #Third-party apps
     'crispy_forms',
     'sorl.thumbnail',
+    'social_django',
     #Local apps
     'accounts.apps.AccountsConfig',
     'category.apps.CategoryConfig',
@@ -59,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -76,6 +79,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.processor.show_cat',
                 'cart.processor.show_cart',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -166,3 +171,18 @@ REDIS_HOST = 'localhost'
 REDIS_PORT = 6379
 REDIS_DB = 1
 
+#social auth backend
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =config("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'shop:index'
+SOCIAL_AUTH_LOGIN_ERROR_URL = 'shop:index'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile',
+    'https://www.googleapis.com/auth/user.phonenumbers.read ',
+    ]
