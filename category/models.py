@@ -6,10 +6,11 @@ from django.urls import reverse
 class Category(models.Model):
     title = models.CharField(max_length=200)
     slug = models.CharField(max_length=250, unique=True)
-    created = models.DateTimeField(auto_now_add=True)
     sub_cat = models.ForeignKey('self',on_delete = models.CASCADE, null= True, blank=True, related_name='selfcat')
-    is_sub = models.BooleanField(default=False)
-    is_parent = models.BooleanField(default=True)
+    
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
     class Meta:
         verbose_name = 'Category'
         verbose_name_plural = 'Categories'
@@ -21,4 +22,8 @@ class Category(models.Model):
         return reverse('category:catlist', kwargs={'slug': self.slug})
         
         
-            
+class Brand (models.Model):
+    title = models.CharField(max_length=200)           
+    
+    def __str__(self):
+        return self.title

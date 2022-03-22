@@ -1,6 +1,7 @@
 from typing import Mapping
 from urllib import request
 from django.shortcuts import get_object_or_404, render
+from django.views import View
 from django.views.generic import ListView, DetailView
 from .models import Product
 from cart.forms import AddToCardForm
@@ -11,39 +12,23 @@ from redis import Redis
 # Create your views here.
 
 redis_con = Redis(settings.REDIS_HOST, settings.REDIS_PORT, settings.REDIS_DB,decode_responses=True)       
+
 class ShopView(ListView):
     template_name = 'shop/index.html'
-    paginate_by = 4
+    queryset = Product.objects.filter(is_active = True)
+    paginate_by = 8
     
-    def setup(self, request, *args, **kwargs):
-        self.view =  redis_con.zrevrangebyscore("view","+inf" , "-inf")[:4]
-        return super().setup(request, *args, **kwargs)
     
-    def get_context_data(self, *args, **kwargs):
-        context = super().get_context_data( *args, **kwargs)
-        context['most_view_products'] = [get_object_or_404(Product, id = int(item)) for item in self.view]
-        context['visited_products'] = list(Visited(self.request))
-        return context
-    
-    def get_queryset(self):
-        return Product.objects.filter(is_active=True)
 
 
 class ProductView(DetailView):
     template_name = 'shop/detail.html'
     model = Product
-    
-    def setup(self, request, *args, **kwargs):
-        visited = Visited(request)
-        product = Product.objects.get(slug = kwargs['slug'])
-        visited.add(product)
-        return super().setup(request, *args, **kwargs)
-    
+        
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data( *args, **kwargs)
         context['quantity_form'] = AddToCardForm
-        context['related_product'] = Product.objects.filter(category__title = self.object.category.all()[0]).exclude(slug = self.kwargs['slug']) [:4]
-        context['product_view'] = int(redis_con.zincrby("view" , 1 , self.object.id))
+        context['related_product'] = Product.objects.filter(category__title = self.object.category.first()).exclude(slug = self.kwargs['slug']).order_by('?') [:4]
         return context
     
     
