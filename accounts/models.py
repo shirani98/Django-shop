@@ -20,6 +20,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser):
+    username = models.CharField(max_length=100, unique = True, null=True, blank=True)
     email = models.EmailField(max_length=100, unique=True)
     phone = models.CharField(max_length=14, unique = True, null=True, blank=True)
     first_name = models.CharField(max_length=50, blank=True,null = True)
