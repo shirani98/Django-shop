@@ -1,24 +1,48 @@
 {% extends "base.html" %}
 {% block body %}
+<section class="py-5">
+    <div class="container px-4 px-lg-5 mt-5">
+  
+<h3>Checkout :</h3>
 
-<h3>Checkout:</h3>
+<table class="table table-dark col-6">
+    <tbody>
+      {% for item in object.items.all %}
+        
+      
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{item.product}}</td>
+        <td>{{item.quantity}}</td>
+        <td>{{item.product.price}}</td>
+      </tr>
+      {% empty %}
+      <p>There are no products in your basket</p>
+      {% endfor %}
 
-<p>Total Price : ${{ object.get_total_price }}</p>
+    </tbody>
+</table>
 
+<p>Total Price :<b> ${{ object.get_total }}</b></p>
+
+<p>Paid Status : 
+    {% if object.paid %}
+        Paid
+        {% else %}
+        UnPaid
+    {% endif %}
+        
+        </p>
 <form action="{% url 'coupon:check' object.id %}" method="post">
     {% csrf_token %}
     {{form}}
     <input type="submit" value="check coupon">
 </form>
 <br>
+<form action = "https://sandbox.zarinpal.com/pg/v4/payment/request.json", method = "POST">
+<input type= "submit" value="   Pay   " class="btn btn-success">
 
-<p>Paid Status : 
-{% if object.paid %}
-    Paid
-    {% else %}
-    UnPaid
-{% endif %}
-    
-    </p>
-
+</form>
+</div>
+</section>
 {% endblock body %}
