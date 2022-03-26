@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block body %}
+
 <section class="py-5">
   <div class="container px-4 px-lg-5 mt-5">
 
@@ -10,7 +11,6 @@
         <th scope="col">Product Name</th>
         <th scope="col">Quantity</th>
         <th scope="col">Unit Price</th>
-        <th scope="col">Total Price</th>
         <th scope="col">Delete</th>
       </tr>
     </thead>
@@ -22,19 +22,13 @@
         <th scope="row">{{forloop.counter}}</th>
         <td>{{item.product}}</td>
         <td>{{item.quantity}}</td>
-        <td>{{item.price}}</td>
-        <td>{{item.total_price}}</td>
-        <td><a href="{% url 'cart:del' item.product.id %}"><i class="fa fa-trash-o" style="font-size:24px"></i></a></td>
+        <td>{{item.product.price}}</td>
+        <td><a href="{% url 'basket:del' item.product.id %}"><i class="fa fa-trash-o" style="font-size:24px"></i></a></td>
       </tr>
+      {% empty %}
+      <p>There are no products in your basket</p>
       {% endfor %}
-      <tr>
-        <td scope="row">total price</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>{{cart.get_total_price}}</td>
-        <td></td>
-      </tr>
+
     </tbody>
   </table>
   <a  href="{% url 'order:add'  %}"><input type= "button" value="Checkout" class="btn btn-primary"></a>

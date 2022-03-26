@@ -15,10 +15,12 @@
                 </div>
                 <p class="lead">{{object.body|truncatewords:200}}</p>
                 <div class="d-flex">
-                    <form action="{% url 'cart:add' object.id %}" method="post">
+                    <form action="{% url 'basket:add' %}" method="post">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-4">
+                                <input type="hidden" name = 'product_id' value = "{{object.id}}">
+                                <input type="hidden" name = 'next' value="{{request.build_absolute_uri}}"
                             {{quantity_form}}
                         </div>
                         <div class="col-8"> 

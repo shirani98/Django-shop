@@ -22,9 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls', namespace= 'accounts')),
     path('category/', include('category.urls', namespace= 'category')),
-    path('cart/', include('cart.urls', namespace= 'cart')),
     path('order/', include('order.urls', namespace= 'order')),
     path('s/', include('social_django.urls', namespace='social')),
+    path('basket/', include('basket.urls', namespace='basket')),
     path('', include('shop.urls', namespace= 'shop')),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

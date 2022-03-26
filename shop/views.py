@@ -6,7 +6,7 @@ from django.views.generic import ListView, DetailView
 
 from wallet.models import Transaction, TransactionsArchive, Transfer, UserBalance
 from .models import Product
-from cart.forms import AddToCardForm
+from basket.forms import AddToCardForm
 from django.contrib.postgres.search import SearchVector
 from .session import Visited 
 from django.conf import settings

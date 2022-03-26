@@ -46,10 +46,10 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'category.apps.CategoryConfig',
     'shop.apps.ShopConfig',
-    'cart.apps.CartConfig',
     'order.apps.OrderConfig',
     'coupon.apps.CouponConfig',
     'wallet.apps.WalletConfig',
+    'basket.apps.BasketConfig',
     
 ]
 
@@ -78,7 +78,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.processor.show_cat',
-                'cart.processor.show_cart',
+                'basket.processor.show_cart',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
             ],
