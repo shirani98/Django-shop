@@ -1,11 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import View, CreateView, DetailView, RedirectView
-
-from basket.models import Basket
+from django.views.generic import View, DetailView
 from .models import Order, OrderItem
 from django.contrib.auth.mixins import LoginRequiredMixin
-from shop.models import Product
 from coupon.forms import CouponForm
 # Create your views here.
 
@@ -23,9 +20,5 @@ class OrderDetail(LoginRequiredMixin,  DetailView):
 class AddOrder(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
-        basket = Basket.objects.get(id=self.request.COOKIES.get("basket_id"))
-        order = Order.objects.create(user=request.user)
-        for item in basket.basket_inline.all():
-            order_item = OrderItem.objects.create(
-                order=order, product=item.product, quantity=item.quantity, price=item.product.price)
+        order = OrderItem.add_order_item(self.request.COOKIES.get("basket_id"),request.user)
         return redirect('order:detail', order.id)

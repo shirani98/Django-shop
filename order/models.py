@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.db.models import Sum
+from basket.models import Basket
 from shop.models import Product
 from django.db.models import F
 # Create your models here.
@@ -38,3 +39,12 @@ class OrderItem (models.Model):
 
     def get_cost(self):
         return self.price * self.quantity
+
+    @classmethod
+    def add_order_item(cls, basket_id, user):
+        basket = Basket.objects.get(id=basket_id)
+        order = Order.objects.create(user=user)
+        for item in basket.basket_inline.all():
+            order_item = cls.objects.create(
+                order=order, product=item.product, quantity=item.quantity, price=item.product.price)
+        return order

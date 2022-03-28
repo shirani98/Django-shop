@@ -26,7 +26,7 @@
                        
                        {% for item in cats %}
                        
-                       {% if item.is_parent %}
+                       {% if item.selfcat.all %}
                        <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle active" href="{{item.get_absolute_url}}" data-bs-toggle="dropdown">{{item.title}}</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -37,7 +37,7 @@
 
                         </ul>
                     </li>    
-                    {% else %}
+                    {% elif item.sub_cat is None %}
                     <li class="nav-item"><a class="nav-link active" aria-current="page" href="{{item.get_absolute_url}}">{{item.title}}</a></li>
 
                        {% endif %}

@@ -3,11 +3,7 @@ from .models import Product
 from basket.forms import AddToCardForm
 from django.contrib.postgres.search import SearchVector
 from django.conf import settings
-from redis import Redis
 # Create your views here.
-
-redis_con = Redis(settings.REDIS_HOST, settings.REDIS_PORT,
-                  settings.REDIS_DB, decode_responses=True)
 
 
 class ShopView(ListView):
