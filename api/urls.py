@@ -1,5 +1,5 @@
 from django.urls import path
-from api.views import AccountsRegisterView, ProductCatrgoryList, ProductCreateView, ProductActionView, ProductListView, ProductDetailView
+from api.views import AccountsChangePassView, AccountsRegisterView, ProductCatrgoryList, ProductCreateView, ProductActionView, ProductListView, ProductDetailView
 
 
 app_name = 'Api'
@@ -11,5 +11,6 @@ urlpatterns = [
     path('product/create/', ProductCreateView.as_view(), name='create'),
     path('product/action/<int:pk>/', ProductActionView.as_view(), name='action'),
     path('accounts/register/', AccountsRegisterView.as_view(), name='register'),
+    path('accounts/passupdate/', AccountsChangePassView.as_view(), name='passupdate'),
 
 ]

@@ -1,4 +1,5 @@
 from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect
 from django.views.generic import CreateView
 from accounts.forms import UserCreationForm
 from accounts.models import User
@@ -9,11 +10,24 @@ from django.contrib.auth.views import PasswordResetCompleteView, PasswordResetVi
 class Login(LoginView):
     template_name = 'accounts/login.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect("shop:index")
+        return super().dispatch(request, *args, **kwargs)
+
 
 class Register(CreateView):
     model = User
     template_name = 'accounts/register.html'
     form_class = UserCreationForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect("shop:index")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('accounts:login')
 
 
 class ResetPass(PasswordResetView):

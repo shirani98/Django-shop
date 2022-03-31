@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'sorl.thumbnail',
     'social_django',
+    'rest_framework',
     #Local apps
     'accounts.apps.AccountsConfig',
     'category.apps.CategoryConfig',
@@ -186,3 +187,13 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
     'https://www.googleapis.com/auth/userinfo.profile',
     'https://www.googleapis.com/auth/user.phonenumbers.read ',
     ]
+
+
+REST_FRAMEWORK = {
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+
+}
